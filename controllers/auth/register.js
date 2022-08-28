@@ -1,9 +1,9 @@
 const bcrypt = require('bcryptjs');
 const gravatar = require('gravatar');
 const { v4 } = require("uuid");
-const { basedir } = global;
-const { User, schemas } = require(`${basedir}/models/user`);
-const { createError, sendEmail } = require(`${basedir}/helpers`);
+// const { basedir } = global;
+const { User, schemas } = require(`../../models/user`);
+const { createError, sendEmail } = require(`../../helpers`);
 
 const register = async (req, res) => {
     const { error } = schemas.register.validate(req.body);
@@ -34,7 +34,7 @@ const register = async (req, res) => {
     res.status(201).json({
         user: {
             email: result.email,
-            subscription: result.subscription,
+            // subscription: result.subscription,
         },
     });
 }

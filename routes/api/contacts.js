@@ -1,24 +1,24 @@
-const express = require('express')
-const { basedir } = global;
+// const express = require('express')
+// const { basedir } = global;
 
-const { auth } = require(`${basedir}/middlewares`);
+// const { auth } = require(`${basedir}/middlewares`);
 
-const ctrl = require(`${basedir}/controllers/contacts`);
+// const ctrl = require(`${basedir}/controllers/contacts`);
 
-const { ctrlWrapper } = require(`${basedir}/helpers`);
+// const { ctrlWrapper } = require(`${basedir}/helpers`);
 
-const router = express.Router()
+// const router = express.Router()
 
-router.get('/', auth, ctrlWrapper(ctrl.getAllContacts));
+// router.get('/', auth, ctrlWrapper(ctrl.getAllContacts));
 
-router.get('/:contactId', auth, ctrlWrapper(ctrl.getContactById));
+// router.get('/:contactId', auth, ctrlWrapper(ctrl.getContactById));
 
-router.post('/', auth, ctrlWrapper(ctrl.addContact));
+// router.post('/', auth, ctrlWrapper(ctrl.addContact));
 
-router.delete('/:contactId', auth, ctrlWrapper(ctrl.removeContact));
+// router.delete('/:contactId', auth, ctrlWrapper(ctrl.removeContact));
 
-router.put('/:contactId', auth, ctrlWrapper(ctrl.updateContactById));
+// router.put('/:contactId', auth, ctrlWrapper(ctrl.updateContactById));
 
-router.patch('/:contactId/favorite', auth, ctrlWrapper(ctrl.updateStatusContact));
+// router.patch('/:contactId/favorite', auth, ctrlWrapper(ctrl.updateStatusContact));
 
-module.exports = router;
+// module.exports = router;

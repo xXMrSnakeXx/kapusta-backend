@@ -1,5 +1,5 @@
-const { basedir } = global;
-const { User } = require(`${basedir}/models/user`);
+// const { basedir } = global;
+const { User } = require(`../../models/user`);
 
 const logout = async (req, res) => {
     console.log(req.user);
