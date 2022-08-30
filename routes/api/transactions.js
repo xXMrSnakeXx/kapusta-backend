@@ -13,7 +13,7 @@ router.post('/balance', validation(balanceSchema.updateBalanceSchema), ctrlWrapp
 
 router.get('/balance', ctrlWrapper(ctrlTransactions.getBalance));
 
-//router.get('/', ctrlWrapper(ctrlTransactions.getReportsTrans));
+router.get('/', ctrlWrapper(ctrlTransactions.getReportsTrans));
 
 //router.post('/', validation(transactionSchema.addSchema), ctrlWrapper(ctrlTransactions.addTransaction)); // В модель необходимо добавить addSchema-Joi
 
