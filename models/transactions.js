@@ -1,4 +1,5 @@
 const { Schema, model } = require("mongoose");
+const Joi = require('joi');
 
 const transactionSchema = new Schema(
     {
@@ -33,6 +34,23 @@ const transactionSchema = new Schema(
 
 const Transaction = model('transaction', transactionSchema);
 
+const addTransactionSchema = Joi.object({
+    data: Joi.object({
+        date: Joi.string(),
+        month: Joi.string(),
+        year: Joi.string()
+    }),
+    description: Joi.string().required(),
+    categories: Joi.string(),
+    value: Joi.number().required(),
+    income: Joi.boolean().required()
+});
+
+const schemasTrans = {
+    add: addTransactionSchema,
+}
+
 module.exports = {
     Transaction,
+    schemasTrans,
 };
