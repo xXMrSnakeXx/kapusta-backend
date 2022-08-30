@@ -4,8 +4,7 @@ const ctrl = require(`../../controllers/auth`);
 
 const { ctrlWrapper } = require(`../../helpers`);
 
-
-// const { auth } = require(`../../middlewares`);
+const { auth } = require(`../../middlewares`);
 
 const router = express.Router();
 
@@ -17,7 +16,6 @@ router.get("/google-redirect", ctrlWrapper(ctrl.googleRedirect));
 // sign up
 router.post('/register', ctrlWrapper(ctrl.register));
 
-
 // verification of email
 // router.get('/verify/:verificationToken', auth, ctrlWrapper(ctrl.verifyEmail));
 
@@ -28,12 +26,12 @@ router.post('/register', ctrlWrapper(ctrl.register));
 router.post('/login', ctrlWrapper(ctrl.login));
 
 // current
-// router.get('/current', auth, ctrlWrapper(ctrl.getCurrent));
+router.get('/current', auth, ctrlWrapper(ctrl.getCurrent));
 
 // log out
-// router.get('/logout', auth, ctrlWrapper(ctrl.logout));
+router.get('/logout', auth, ctrlWrapper(ctrl.logout));
 
-// update subscription
-// router.patch("/current", auth, ctrlWrapper(ctrl.updateUserSubscription));
+// update balance
+router.patch("/balance", auth, ctrlWrapper(ctrl.updateBalance));
 
 module.exports = router;

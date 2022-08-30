@@ -1,9 +1,9 @@
 const bcrypt = require('bcryptjs');
-const gravatar = require('gravatar');
-const { v4 } = require("uuid");
+// const gravatar = require('gravatar');
+// const { v4 } = require("uuid");
 // const { basedir } = global;
 const { User, schemas } = require(`../../models/user`);
-const { createError, sendEmail } = require(`../../helpers`);
+const { createError} = require(`../../helpers`);
 
 const register = async (req, res) => {
     const { error } = schemas.register.validate(req.body);
@@ -18,23 +18,14 @@ const register = async (req, res) => {
     }
 
     const hashPassword = await bcrypt.hash(password, 10);
-    const avatarURL = gravatar.url(email);
-    const verificationToken = v4();
-
-    const result = await User.create({ ...req.body, password: hashPassword, avatarURL, verificationToken });
     
-    const mail = {
-        to: email,
-        subject: "Verification email",
-        html: `<a target="_blank" href="http://localhost:3000/api/auth/verify/${verificationToken}">Click to confirm registration</a>`,
-    }
-
-    await sendEmail(mail);
+    const result = await User.create({ ...req.body, password: hashPassword });
     
     res.status(201).json({
         user: {
             email: result.email,
-            // subscription: result.subscription,
+            balance: result.balance,
+            
         },
     });
 }

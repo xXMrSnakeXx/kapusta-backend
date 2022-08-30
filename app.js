@@ -2,10 +2,10 @@ const express = require('express')
 const path = require("path");
 const logger = require('morgan')
 const cors = require('cors')
-const dotenv = require('dotenv');
+// const dotenv = require('dotenv');
 
-global.basedir = __dirname;
-dotenv.config({ path: path.join(__dirname, "../../.env") });
+// global.basedir = __dirname;
+// dotenv.config({ path: path.join(__dirname, "../../.env") });
 
 const authRouter = require('./routes/api/auth');
 // const avatarsRouter = require('./routes/api/avatars');
@@ -33,7 +33,8 @@ app.use((req, res) => {
 })
 
 app.use((err, req, res, next) => {
-  res.status(500).json({ message: err.message })
-})
+  const { status = 500, message = "Server error" } = err;
+  res.status(status).json({ message });
+});
 
 module.exports = app;

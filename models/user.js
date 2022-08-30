@@ -7,7 +7,7 @@ const userSchema = Schema({
     password: {
         type: String,
         minlength: 6,
-        required: [true, 'Password is required'],
+        // required: [true, 'Password is required'],
     },
     email: {
         type: String,
@@ -15,10 +15,10 @@ const userSchema = Schema({
         required: [true, 'Email is required'],
         unique: true,
     },
-    // token: {
-    //     type: String,
-    //     default: null,
-    // },
+    token: {
+        type: String,
+        default: null,
+    },
     balance: {
         type: Number,
         default: null
@@ -37,6 +37,7 @@ const registerSchema = Joi.object({
     email: Joi.string().pattern(emailRegexp).required(),
     password: Joi.string().min(6).required(),
     token: Joi.string(),
+    balance: Joi.number()
 });
 
 const loginSchema = Joi.object({
@@ -44,13 +45,14 @@ const loginSchema = Joi.object({
     password: Joi.string().min(6).required(),
 });
 
-// const emailSchema = Joi.object({
-//     email: Joi.string().pattern(emailRegexp).required(),
-// });
+const updateBalanceSchema = Joi.object({
+    balance: Joi.number().required()
+});
 
 const schemas = {
     register: registerSchema,
     login: loginSchema,
+    updateBalanceSchema,
     // email: emailSchema,
 };
 

@@ -4,6 +4,7 @@ const getCurrent = require('./getCurrent');
 const logout = require('./logout');
 const googleAuth = require('./googleAuth');
 const googleRedirect = require('./googleRedirect');
+const updateBalance = require('./updateBalance');
 
 module.exports = {
     register,
@@ -12,4 +13,5 @@ module.exports = {
     logout,
     googleAuth,
     googleRedirect,
+    updateBalance,
 }
