@@ -35,7 +35,7 @@ const transactionSchema = new Schema(
 const Transaction = model('transaction', transactionSchema);
 
 const addTransactionSchema = Joi.object({
-    data: Joi.object({
+    date: Joi.object({
         date: Joi.string(),
         month: Joi.string(),
         year: Joi.string()
