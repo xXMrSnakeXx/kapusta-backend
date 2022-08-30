@@ -5,7 +5,6 @@ const cors = require('cors')
 
 // const dotenv = require('dotenv');
 
-const dotenv = require('dotenv');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
 
@@ -34,8 +33,6 @@ app.use("/link", (req, res) => {
 // app.use('/users/avatars', avatarsRouter);
 // app.use('/api/contacts', contactsRouter);
 
-app.use('/users/avatars', avatarsRouter);
-app.use('/api/contacts', contactsRouter);
 // type in the browser 'http://localhost:3000/api-docs'
 // to go to swagger
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
