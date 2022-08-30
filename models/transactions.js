@@ -46,11 +46,11 @@ const addTransactionSchema = Joi.object({
     income: Joi.boolean().required()
 });
 
-const schemasTrans = {
+const schemas = {
     add: addTransactionSchema,
 }
 
 module.exports = {
     Transaction,
-    schemasTrans,
+    schemas,
 };
