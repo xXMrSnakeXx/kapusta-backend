@@ -1,33 +1,43 @@
-const bcrypt = require('bcryptjs');
-// const gravatar = require('gravatar');
-// const { v4 } = require("uuid");
-// const { basedir } = global;
+const bcrypt = require("bcryptjs");
 const { User, schemas } = require(`../../models/user`);
-const { createError} = require(`../../helpers`);
+const { createError } = require(`../../helpers`);
+
+const jwt = require("jsonwebtoken");
+
+const { SECRET_KEY } = process.env;
 
 const register = async (req, res) => {
-    const { error } = schemas.register.validate(req.body);
-    if (error) {
-        throw createError(400, error.message);
-    }
+  const { error } = schemas.register.validate(req.body);
+  if (error) {
+    throw createError(400, error.message);
+  }
 
-    const { email, password } = req.body;
-    const user = await User.findOne({ email });
-    if (user) {
-        throw createError(409, 'Email in use')
-    }
+  const { email, password } = req.body;
+  const user = await User.findOne({ email });
+  if (user) {
+    throw createError(409, "Email in use");
+  }
 
-    const hashPassword = await bcrypt.hash(password, 10);
-    
-    const result = await User.create({ ...req.body, password: hashPassword });
-    
-    res.status(201).json({
-        user: {
-            email: result.email,
-            balance: result.balance,
-            
-        },
-    });
-}
+  const hashPassword = await bcrypt.hash(password, 10);
+
+  const newUser = await User.create({ ...req.body, password: hashPassword });
+
+  const payload = {
+    _id: newUser._id,
+  };
+
+  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "1h" });
+
+  await User.findByIdAndUpdate(newUser._id, { token });
+
+  res.status(201).json({
+    user: {
+      email: newUser.email,
+      balance: newUser.balance,
+      token,
+      categories: newUser.categories,
+    },
+  });
+};
 
 module.exports = register;

@@ -1,6 +1,7 @@
 const queryString = require("query-string");
 const axios = require("axios");
 const { User } = require(`../../models/user`);
+
 const jwt = require("jsonwebtoken");
 
 const googleRedirect = async (req, res) => {
@@ -40,7 +41,9 @@ const googleRedirect = async (req, res) => {
     const token = jwt.sign(payload, SECRET_KEY);
     await User.findByIdAndUpdate(user._id, { token });
 
-    return res.redirect(`${process.env.FRONTEND_URL}?token=${token}`).json({email: email, token: token });
+    return res
+      .redirect(`${process.env.FRONTEND_URL}?token=${token}`)
+      .json({ email: email, token: token });
   }
   const newUser = await User.create({ email });
 
@@ -53,7 +56,9 @@ const googleRedirect = async (req, res) => {
   const token = jwt.sign(payload, SECRET_KEY);
   await User.findByIdAndUpdate(_id, { token });
 
-  return res.redirect(`${process.env.FRONTEND_URL}?token=${token}`).json({email: email, token: token });
+  return res
+    .redirect(`${process.env.FRONTEND_URL}?token=${token}`)
+    .json({ email: email, token: token });
 };
 
 module.exports = googleRedirect;
