@@ -27,9 +27,9 @@ app.use(express.static('public'))
 app.use('/api/auth', authRouter);
 app.use('/api/transactions', transactionsRouter);
 
-app.use("/link", (req, res) => {
-  res.sendFile(path.join(__dirname, "./public/link.html"));
-});
+// app.use("/link", (req, res) => {
+//   res.sendFile(path.join(__dirname, "./public/link.html"));
+// });
 
 // app.use('/users/avatars', avatarsRouter);
 // app.use('/api/contacts', contactsRouter);
