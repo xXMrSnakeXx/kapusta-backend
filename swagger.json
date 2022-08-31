@@ -21,9 +21,71 @@
     {
       "name": "Auth",
       "description": "Authorization endpoints"
+    },
+    {
+      "name": "Transactions",
+      "description": "Transactions endpoints"
     }
   ],
   "paths": {
+    "/api/auth/google": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "User google registration",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegistrationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
+          },
+          "409": {
+            "description": "Provided email already exists",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/auth/google-redirect": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "User google registration",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegistrationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
+          },
+          "409": {
+            "description": "Provided email already exists",
+            "content": {}
+          }
+        }
+      }
+    },
     "/api/auth/register": {
       "post": {
         "tags": [
@@ -104,32 +166,25 @@
         }
       }
     },
-    "/api/auth/logout": {
-      "post": {
+    "/api/auth/current": {
+      "get": {
         "tags": [
           "Auth"
         ],
-        "summary": "User logout",
+        "summary": "Get user's information access by token",
         "parameters": [],
-        "security": [{"Bearer": []}],
-        "requestBody": {
-          "description": "Logout's object",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/LogoutRequest"
-              }
-            }
+        "security": [
+          {
+            "Bearer": []
           }
-        },
+        ],
         "responses": {
-          "201": {
+          "204": {
             "description": "Successful operation",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/LogoutResponse"
+                  "$ref": "#/components/schemas/CurrentResponse"
                 }
               }
             }
@@ -144,10 +199,132 @@
           }
         }
       }
+    },
+    "/api/auth/logout": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "User logout",
+        "parameters": [],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful operation",
+            "content": {}
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
+          },
+          "409": {
+            "description": "Provided email already exists",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/auth/balance": {
+      "patch": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "User logout",
+        "parameters": [],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "requestBody": {
+          "description": "New balance",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BalanceRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CurrentResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
+          },
+          "409": {
+            "description": "Provided email already exists",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/transactions/balance": {
+      "post": {
+        "tags": [
+          "Transactions"
+        ],
+        "summary": "Set balance",
+        "parameters": [],
+        "requestBody": {
+          "description": "Registration's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GoogleRegistrationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegistrationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
+      "GoogleRegistrationRequest": {
+        "type": "object",
+        "required": [
+          "email"
+        ],
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          }
+        }
+      },
       "RegistrationRequest": {
         "type": "object",
         "required": [
@@ -167,7 +344,6 @@
           }
         }
       },
-      
       "RegistrationResponse": {
         "type": "object",
         "properties": {
@@ -181,6 +357,16 @@
       "LoginResponse": {
         "type": "object",
         "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "balance": {
+            "type": "string",
+            "description": "User's balance",
+            "example": 10000
+          },
           "token": {
             "type": "string",
             "description": "User's token",
@@ -188,26 +374,31 @@
           }
         }
       },
-      "LogoutRequest": {
+      "CurrentResponse": {
         "type": "object",
-        "required": [
-          "email"
-        ],
         "properties": {
           "email": {
             "type": "string",
             "description": "User's email",
             "format": "email"
+          },
+          "balance": {
+            "type": "string",
+            "description": "User's balance",
+            "example": 10000
           }
         }
       },
-      "LogoutResponse": {
+      "BalanceRequest": {
         "type": "object",
+        "required": [
+          "balance"
+        ],
         "properties": {
-          "email": {
+          "balance": {
             "type": "string",
-            "description": "User's email",
-            "format": "email"
+            "description": "User's balance",
+            "example": 10000
           }
         }
       }
