@@ -1,12 +1,11 @@
-// const { basedir } = global;
 const { User, schemas } = require(`../../models/user`);
 const { createError } = require(`../../helpers`);
 const updateBalance = async (req, res) => {
-  console.log("ура")
-   const { error } = schemas.updateBalanceSchema.validate(req.body);
-   if (error) {
-     throw createError(400, error.message);
-   }
+  console.log("ура");
+  const { error } = schemas.updateBalanceSchema.validate(req.body);
+  if (error) {
+    throw createError(400, error.message);
+  }
   const { _id } = req.user;
   const { balance } = req.body;
   if (balance <= 0) {
