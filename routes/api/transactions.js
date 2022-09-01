@@ -12,6 +12,10 @@ router.post("/:type", auth, ctrlWrapper(ctrl.addTransaction))
 
 router.delete("/:transactionId", auth, ctrlWrapper(ctrl.deleteTransaction))
 
+router.get("/:type", auth, ctrlWrapper(ctrl.getTransByMonth));
+
+router.get("/", auth, ctrlWrapper(ctrl.getReportsTrans));
+
 module.exports = router;
 
 

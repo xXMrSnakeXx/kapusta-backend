@@ -4,9 +4,10 @@ const Joi = require("joi");
 const transactionSchema = new Schema(
   {
     date: {
-      day: String,
-      month: String,
-      year: String,
+      day:{type: String,required: true,},
+      month: {type: String,required: true,},
+      year:{type: String,required: true,},
+      
     },
     description: {
       type: String,
@@ -34,9 +35,9 @@ const transactionSchema = new Schema(
 
 const addTransactionSchema = Joi.object({
   date: Joi.object({
-    day: Joi.string(),
-    month: Joi.string(),
-    year: Joi.string(),
+    day: Joi.string().required(),
+    month: Joi.string().required(),
+    year: Joi.string().required(),
   }),
   description: Joi.string().required(),
   categories: Joi.string().required(),
