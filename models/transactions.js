@@ -32,8 +32,6 @@ const transactionSchema = new Schema(
   { versionKey: false, timestamps: true }
 );
 
-const Transaction = model("transaction", transactionSchema);
-
 const addTransactionSchema = Joi.object({
   date: Joi.object({
     day: Joi.string(),
@@ -41,13 +39,16 @@ const addTransactionSchema = Joi.object({
     year: Joi.string(),
   }),
   description: Joi.string().required(),
-  categories: Joi.string(),
+  categories: Joi.string().required(),
   value: Joi.number().required(),
 });
+
 
 const schemas = {
   add: addTransactionSchema,
 };
+
+const Transaction = model("transaction", transactionSchema);
 
 module.exports = {
   Transaction,

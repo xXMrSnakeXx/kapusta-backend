@@ -10,23 +10,10 @@ const router = express.Router();
 
 router.post("/:type", auth, ctrlWrapper(ctrl.addTransaction))
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+router.delete("/:transactionId", auth, ctrlWrapper(ctrl.deleteTransaction))
 
 module.exports = router;
+
 
 // const express = require('express');
 
