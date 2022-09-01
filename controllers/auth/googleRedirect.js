@@ -39,11 +39,11 @@ const googleRedirect = async (req, res) => {
     };
 
     const token = jwt.sign(payload, SECRET_KEY);
-    await User.findByIdAndUpdate(user._id, { token });
+    const updateTokenUser = await User.findByIdAndUpdate(user._id, { token });
 
     return res
       .redirect(`${process.env.FRONTEND_URL}?token=${token}`)
-      .json({ email: email, token: token });
+      .json({ updateTokenUser });
   }
   const newUser = await User.create({ email });
 
@@ -54,11 +54,11 @@ const googleRedirect = async (req, res) => {
   };
 
   const token = jwt.sign(payload, SECRET_KEY);
-  await User.findByIdAndUpdate(_id, { token });
+  const updateTokenUser = await User.findByIdAndUpdate(_id, { token });
 
   return res
     .redirect(`${process.env.FRONTEND_URL}?token=${token}`)
-    .json({ email: email, token: token });
+    .json({ updateTokenUser });
 };
 
 module.exports = googleRedirect;
