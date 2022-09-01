@@ -30,9 +30,9 @@ const addTransaction = async (req, res) => {
       return;
   }
 
-  if (newBalance < 0) {
-    return null;
-  }
+  // if (newBalance < 0) {
+  //   throw createError(400, "Недостаточно средств на балансе, что записать эту транзакцию");
+  // }
 
   await User.findByIdAndUpdate(_id, { balance: newBalance }, { new: true });
   const transaction = await Transaction.create({
