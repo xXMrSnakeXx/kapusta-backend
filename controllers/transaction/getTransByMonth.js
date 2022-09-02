@@ -52,6 +52,8 @@ const getTransByMonth = async (req, res) => {
         throw createError(404);
     }
     
+    console.log(transactions);
+
     res.json({
         status: 'success',
         code: 200,
