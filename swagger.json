@@ -3,12 +3,18 @@
   "info": {
     "version": "1.0.0",
     "title": "Finanse-app-backend",
-    "description": "API team project \"KAPU$TA\" team № 5 Full-stack course 42",
+    "description": "This is the API of the financial application \"KAPU$TA\". This API was developed by team № 5 Full-stack on-line course № 42 in the period from August 25 to September 8, 2022",
     "license": {
       "name": "MIT",
       "url": "https://opensource.org/licenses/MIT"
     }
   },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
   "servers": [
     {
       "url": "http://localhost:3000"
@@ -28,64 +34,6 @@
     }
   ],
   "paths": {
-    "/api/auth/google": {
-      "get": {
-        "tags": [
-          "Auth"
-        ],
-        "summary": "User google registration",
-        "parameters": [],
-        "responses": {
-          "201": {
-            "description": "Successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RegistrationResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad request (invalid request body)",
-            "content": {}
-          },
-          "409": {
-            "description": "Provided email already exists",
-            "content": {}
-          }
-        }
-      }
-    },
-    "/api/auth/google-redirect": {
-      "get": {
-        "tags": [
-          "Auth"
-        ],
-        "summary": "User google registration",
-        "parameters": [],
-        "responses": {
-          "201": {
-            "description": "Successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RegistrationResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad request (invalid request body)",
-            "content": {}
-          },
-          "409": {
-            "description": "Provided email already exists",
-            "content": {}
-          }
-        }
-      }
-    },
     "/api/auth/register": {
       "post": {
         "tags": [
@@ -273,12 +221,12 @@
         }
       }
     },
-    "/api/transactions/balance": {
+    "/api/transactions/:type": {
       "post": {
         "tags": [
           "Transactions"
         ],
-        "summary": "Set balance",
+        "summary": "Add transaction",
         "parameters": [],
         "requestBody": {
           "description": "Registration's object",
@@ -286,7 +234,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/GoogleRegistrationRequest"
+                "$ref": "#/components/schemas/RegistrationResponse"
               }
             }
           }
@@ -312,19 +260,6 @@
   },
   "components": {
     "schemas": {
-      "GoogleRegistrationRequest": {
-        "type": "object",
-        "required": [
-          "email"
-        ],
-        "properties": {
-          "email": {
-            "type": "string",
-            "description": "User's email",
-            "format": "email"
-          }
-        }
-      },
       "RegistrationRequest": {
         "type": "object",
         "required": [
