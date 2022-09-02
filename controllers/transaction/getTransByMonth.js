@@ -48,7 +48,7 @@ const getTransByMonth = async (req, res) => {
         }
     ]);
    
-    if (!transactions) {
+       if (!transactions) {
         throw createError(404);
     }
     
