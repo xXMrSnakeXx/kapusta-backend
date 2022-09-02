@@ -1,50 +1,125 @@
 const { createError } = require("../../helpers");
-const {Transaction} = require('../../models/transactions');
+const { Transaction } = require("../../models/transactions");
 
 const getReportTrans = async (req, res) => {
   const { _id: owner } = req.user;
-  const { month } = req.query;
+  const { type } = req.params;
+  const { month, year } = req.query;
+
+  let income;
+
+  if (type === "income") {
+    income = true;
+  } else if (type === "expense") {
+    income = false;
+  }
 
   const transactions = await Transaction.aggregate([
     {
       $match: {
         owner: owner,
-        'date.month': month,
-        // "date.year": year,
+        "date.month": month,
+        "date.year": year,
+        income: income,
+      },
+    },
+
+    {
+      $group: {
+        _id: {
+          // income: "$income",
+          categories: "$categories",
+          description:  "$description" ,
+        },
+        totalDescriptionSum: { $sum: "$value" },
+
       },
     },
     {
       $group: {
-        _id: {
-          income: "$income",
-          categories: "$categories",
-                   
+        _id: "$_id.categories",
+        report: { $push: "$$ROOT" },
+        totalCategoriesSum: {
+          $sum: "$totalDescriptionSum",
         },
-        total: { $sum: '$value'},
       },
     },
-   
+
     {
       $project: {
         _id: 1,
-        // income: 1,
+        report: 1,
         total: 1,
+        totalCategoriesSum:1,
       },
     },
-    {
-        $sort: {
-            "categories": 1
-        }
-    }
   ]);
+
+  
+
+  // const transactions = await Transaction.aggregate([
+  //   {
+  //     $match: {
+  //       owner: owner,
+  //       "date.month": month,
+  //       // 'date.year': year
+  //     },
+  //   },
+  //   {
+  //     $group: {
+  //       _id: {
+  //         income: "$income",
+  //         categories: "$categories",
+  //         description: "$description",
+  //         value: "$value",
+  //       },
+  //     },
+  //   },
+    
+  //   {
+  //     $group: {
+  //       _id: "$_id.categories",
+  //       data: {
+  //         $push: {
+  //           type: "$_id.income",
+  //           description: "$_id.description",
+  //           value: "$_id.value",
+  //         },
+  //       },
+  //       summary: { $sum: "$_id.value" },
+  //     },
+  //   },
+    
+  //   {
+  //     $group: {
+  //       _id: { $first: "$data.type" },
+  //       reports: {
+  //         $push: "$$ROOT",
+  //       },
+  //       total: { $sum: "$summary" },
+  //     },
+  //   },
+  //   {
+  //     $project: {
+  //       _id: {
+  //         income: "$_id",
+  //       },
+  //       reports: 1,
+  //       total: 1,
+  //     },
+  //   },
+  // ]);
+  console.log(transactions);
+
   if (!transactions) {
     throw createError(404);
   }
 
+  
   res.json({
     status: "success",
     code: 200,
-    transactions: transactions,
+    transactions,
   });
 };
 
