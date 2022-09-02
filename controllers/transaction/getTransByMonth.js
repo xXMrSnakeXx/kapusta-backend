@@ -59,5 +59,4 @@ const getTransByMonth = async (req, res) => {
     });
 }
 
-
 module.exports = getTransByMonth;
