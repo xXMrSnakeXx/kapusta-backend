@@ -57,7 +57,7 @@ const googleRedirect = async (req, res) => {
   await User.findByIdAndUpdate(_id, { token });
 
   return res
-    .redirect(`${process.env.FRONTEND_URL}?token=${token}`)
+    .redirect(`${process.env.FRONTEND_URL}/google-redirect/?token=${token}`)
     
 };
 
