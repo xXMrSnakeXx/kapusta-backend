@@ -17,10 +17,10 @@
   ],
   "servers": [
     {
-      "url": "http://localhost:3000"
+      "url": "https://finance-wallet.herokuapp.com"
     },
     {
-      "url": "https://finance-wallet.herokuapp.com"
+      "url": "http://localhost:3000"
     }
   ],
   "tags": [
@@ -64,11 +64,15 @@
             }
           },
           "400": {
-            "description": "Bad request (invalid request body)",
+            "description": "Bad request",
             "content": {}
           },
           "409": {
-            "description": "Provided email already exists",
+            "description": "Email in use",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
             "content": {}
           }
         }
@@ -93,7 +97,7 @@
           }
         },
         "responses": {
-          "201": {
+          "200": {
             "description": "Successful operation",
             "content": {
               "application/json": {
@@ -104,11 +108,15 @@
             }
           },
           "400": {
-            "description": "Bad request (invalid request body)",
+            "description": "Bad request",
             "content": {}
           },
-          "409": {
-            "description": "Provided email already exists",
+          "401": {
+            "description": "Email or password is wrong",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
             "content": {}
           }
         }
@@ -282,10 +290,48 @@
       "RegistrationResponse": {
         "type": "object",
         "properties": {
-          "email": {
-            "type": "string",
-            "description": "User's email",
-            "format": "email"
+          "user": {
+            "type": "object",
+            "properties": {
+              "email": {
+                "type": "string",
+                "description": "User's email",
+                "format": "email"
+              },
+              "balance": {
+                "type": "number",
+                "description": "User's balance",
+                "example": 10000
+              },
+              "token": {
+                "type": "string",
+                "description": "User's token",
+                "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzMGIwNDRiZTJhNThkOGFjNGVjN2JmNyIsImlhdCI6MTY2MTY2Njg4MiwiZXhwIjoxNjYxNjcwNDgyfQ.2rECvpQUhE94jwDubxmiYljXHK6gxAtJH2F_9VqejAA"
+              },
+              "categories": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "number",
+                      "description": "Categorie's id",
+                      "example": 1
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "Categorie's name",
+                      "example": "Products"
+                    },
+                    "type": {
+                      "type": "string",
+                      "description": "Categorie's type",
+                      "example": "expenses"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       },
