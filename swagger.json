@@ -17,10 +17,10 @@
   ],
   "servers": [
     {
-      "url": "http://localhost:3000"
+      "url": "https://finance-wallet.herokuapp.com"
     },
     {
-      "url": "https://finance-wallet.herokuapp.com"
+      "url": "http://localhost:3000"
     }
   ],
   "tags": [
@@ -64,11 +64,19 @@
             }
           },
           "400": {
-            "description": "Bad request (invalid request body)",
+            "description": "Bad request",
+            "content": {}
+          },
+          "404": {
+            "description": "Not found",
             "content": {}
           },
           "409": {
-            "description": "Provided email already exists",
+            "description": "Email in use",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
             "content": {}
           }
         }
@@ -87,13 +95,13 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/RegistrationRequest"
+                "$ref": "#/components/schemas/LoginRequest"
               }
             }
           }
         },
         "responses": {
-          "201": {
+          "200": {
             "description": "Successful operation",
             "content": {
               "application/json": {
@@ -104,11 +112,19 @@
             }
           },
           "400": {
-            "description": "Bad request (invalid request body)",
+            "description": "Bad request",
             "content": {}
           },
-          "409": {
-            "description": "Provided email already exists",
+          "401": {
+            "description": "Email or password is wrong",
+            "content": {}
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
             "content": {}
           }
         }
@@ -127,7 +143,7 @@
           }
         ],
         "responses": {
-          "204": {
+          "200": {
             "description": "Successful operation",
             "content": {
               "application/json": {
@@ -137,12 +153,16 @@
               }
             }
           },
-          "400": {
-            "description": "Bad request (invalid request body)",
+          "401": {
+            "description": "Not authorized",
             "content": {}
           },
-          "409": {
-            "description": "Provided email already exists",
+          "404": {
+            "description": "Not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
             "content": {}
           }
         }
@@ -165,12 +185,16 @@
             "description": "Successful operation",
             "content": {}
           },
-          "400": {
-            "description": "Bad request (invalid request body)",
+          "401": {
+            "description": "Not authorized",
             "content": {}
           },
-          "409": {
-            "description": "Provided email already exists",
+          "404": {
+            "description": "Not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
             "content": {}
           }
         }
@@ -181,7 +205,7 @@
         "tags": [
           "Auth"
         ],
-        "summary": "User logout",
+        "summary": "Update user's balance",
         "parameters": [],
         "security": [
           {
@@ -200,41 +224,64 @@
           }
         },
         "responses": {
-          "204": {
+          "200": {
             "description": "Successful operation",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CurrentResponse"
+                  "$ref": "#/components/schemas/BalanceResponse"
                 }
               }
             }
           },
           "400": {
-            "description": "Bad request (invalid request body)",
+            "description": "Bad request or Balance must be greater then 0",
             "content": {}
           },
-          "409": {
-            "description": "Provided email already exists",
+          "401": {
+            "description": "Not authorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
             "content": {}
           }
         }
       }
     },
-    "/api/transactions/:type": {
+    "/api/transactions/{type}": {
       "post": {
         "tags": [
           "Transactions"
         ],
         "summary": "Add transaction",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "type",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Type of transaction"
+          }
+        ],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "requestBody": {
           "description": "Registration's object",
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/RegistrationResponse"
+                "$ref": "#/components/schemas/addTransactionRequest"
               }
             }
           }
@@ -245,13 +292,77 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/RegistrationResponse"
+                  "$ref": "#/components/schemas/addTransactionResponse"
                 }
               }
             }
           },
           "400": {
-            "description": "Bad request (invalid request body)",
+            "description": "Bad request",
+            "content": {}
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          },
+          "409": {
+            "description": "You cannot create a transaction that exceeds the balance",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/transactions/{transactionId}": {
+      "get": {
+        "tags": [
+          "Transactions"
+        ],
+        "summary": "Delete transaction",
+        "parameters": [
+          {
+            "name": "transactionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Id of transaction"
+          }
+        ],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/deleteTransactionResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
             "content": {}
           }
         }
@@ -282,10 +393,39 @@
       "RegistrationResponse": {
         "type": "object",
         "properties": {
+          "user": {
+            "type": "object",
+            "properties": {
+              "email": {
+                "type": "string",
+                "description": "User's email",
+                "format": "email"
+              },
+              "password": {
+                "type": "string",
+                "description": "User's hash password",
+                "example": "$2a$10$9iFFoJy751rTaWYDw7LSuOG3wZv6JFWl5tsJOFlT6RO3gsYKMtDDS"
+              }
+            }
+          }
+        }
+      },
+      "LoginRequest": {
+        "type": "object",
+        "required": [
+          "email",
+          "password"
+        ],
+        "properties": {
           "email": {
             "type": "string",
             "description": "User's email",
             "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password",
+            "example": "qwerty123"
           }
         }
       },
@@ -298,7 +438,7 @@
             "format": "email"
           },
           "balance": {
-            "type": "string",
+            "type": "number",
             "description": "User's balance",
             "example": 10000
           },
@@ -306,6 +446,29 @@
             "type": "string",
             "description": "User's token",
             "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzMGIwNDRiZTJhNThkOGFjNGVjN2JmNyIsImlhdCI6MTY2MTY2Njg4MiwiZXhwIjoxNjYxNjcwNDgyfQ.2rECvpQUhE94jwDubxmiYljXHK6gxAtJH2F_9VqejAA"
+          },
+          "categories": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number",
+                  "description": "Categorie's id",
+                  "example": 1
+                },
+                "title": {
+                  "type": "string",
+                  "description": "Categorie's name",
+                  "example": "Products"
+                },
+                "type": {
+                  "type": "string",
+                  "description": "Categorie's type",
+                  "example": "expenses"
+                }
+              }
+            }
           }
         }
       },
@@ -317,10 +480,38 @@
             "description": "User's email",
             "format": "email"
           },
-          "balance": {
+          "token": {
             "type": "string",
+            "description": "User's token",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzMGIwNDRiZTJhNThkOGFjNGVjN2JmNyIsImlhdCI6MTY2MTY2Njg4MiwiZXhwIjoxNjYxNjcwNDgyfQ.2rECvpQUhE94jwDubxmiYljXHK6gxAtJH2F_9VqejAA"
+          },
+          "balance": {
+            "type": "number",
             "description": "User's balance",
             "example": 10000
+          },
+          "categories": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number",
+                  "description": "Categorie's id",
+                  "example": 1
+                },
+                "title": {
+                  "type": "string",
+                  "description": "Categorie's name",
+                  "example": "Products"
+                },
+                "type": {
+                  "type": "string",
+                  "description": "Categorie's type",
+                  "example": "expenses"
+                }
+              }
+            }
           }
         }
       },
@@ -334,6 +525,148 @@
             "type": "string",
             "description": "User's balance",
             "example": 10000
+          }
+        }
+      },
+      "BalanceResponse": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "balance": {
+            "type": "number",
+            "description": "User's balance",
+            "example": 10000
+          }
+        }
+      },
+      "addTransactionRequest": {
+        "type": "object",
+        "required": [
+          "data",
+          "description",
+          "categories",
+          "value"
+        ],
+        "properties": {
+          "data": {
+            "type": "object",
+            "required": [
+              "day",
+              "mounth",
+              "year"
+            ],
+            "properties": {
+              "day": {
+                "type": "string",
+                "description": "Day",
+                "example": "20"
+              },
+              "mounth": {
+                "type": "string",
+                "description": "Mounth",
+                "example": "September"
+              },
+              "year": {
+                "type": "string",
+                "description": "Year",
+                "example": "2022"
+              }
+            }
+          },
+          "description": {
+            "type": "string",
+            "description": "Title of product or other",
+            "example": "Coffee"
+          },
+          "categories": {
+            "type": "string",
+            "description": "Title of categorie",
+            "example": "Products"
+          },
+          "value": {
+            "type": "number",
+            "description": "Amount of money",
+            "example": 1000
+          }
+        }
+      },
+      "addTransactionResponse": {
+        "type": "object",
+        "required": [
+          "data",
+          "description",
+          "categories",
+          "value",
+          "income"
+        ],
+        "properties": {
+          "data": {
+            "type": "object",
+            "required": [
+              "day",
+              "mounth",
+              "year"
+            ],
+            "properties": {
+              "day": {
+                "type": "string",
+                "description": "Day",
+                "example": "20"
+              },
+              "mounth": {
+                "type": "string",
+                "description": "Mounth",
+                "example": "September"
+              },
+              "year": {
+                "type": "string",
+                "description": "Year",
+                "example": "2022"
+              }
+            }
+          },
+          "description": {
+            "type": "string",
+            "description": "Title of product or other",
+            "example": "Coffee"
+          },
+          "categories": {
+            "type": "string",
+            "description": "Title of categorie",
+            "example": "Products"
+          },
+          "value": {
+            "type": "number",
+            "description": "Amount of money",
+            "example": 1000
+          },
+          "income": {
+            "type": "boolean",
+            "example": false
+          },
+          "owner": {
+            "type": "string",
+            "description": "Owner's ID",
+            "example": "631090d2f175d13e2d133dca"
+          }
+        }
+      },
+      "deleteTransactionResponse": {
+        "type": "object",
+        "properties": {
+          "balance": {
+            "type": "number",
+            "description": "User's balance",
+            "example": 10000
+          },
+          "message": {
+            "type": "string",
+            "description": "Status message",
+            "example": "transaction deleted"
           }
         }
       }
