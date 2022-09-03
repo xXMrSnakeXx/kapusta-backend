@@ -3,12 +3,16 @@ const Joi = require("joi");
 
 const transactionSchema = new Schema(
   {
-    date: {
-      day:{type: String,required: true,},
-      month: {type: String,required: true,},
-      year:{type: String,required: true,},
+    day:{type: String,required: true,},
+    month:{type: String,required: true,},
+    year:{type: String,required: true,},
+    // date:
+    //  {
+    //   day:{type: String,required: true,},
+    //   month: {type: String,required: true,},
+    //   year:{type: String,required: true,},
       
-    },
+    // },
     description: {
       type: String,
       required: true,
@@ -34,11 +38,14 @@ const transactionSchema = new Schema(
 );
 
 const addTransactionSchema = Joi.object({
-  date: Joi.object({
-    day: Joi.string().required(),
-    month: Joi.string().required(),
-    year: Joi.string().required(),
-  }),
+  // date: Joi.object({
+  //   day: Joi.string().required(),
+  //   month: Joi.string().required(),
+  //   year: Joi.string().required(),
+  // }),
+  day:Joi.string().required(),
+  month:Joi.string().required(),
+  year:Joi.string().required(),
   description: Joi.string().required(),
   categories: Joi.string().required(),
   value: Joi.number().required(),

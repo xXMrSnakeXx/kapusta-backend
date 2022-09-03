@@ -5,6 +5,10 @@ const getReportTrans = async (req, res) => {
   const { _id: owner } = req.user;
   const { type } = req.params;
   const { month, year } = req.query;
+  
+  if(!month&&!year){
+    throw createError(400);
+  }
 
   let income;
 
@@ -14,12 +18,16 @@ const getReportTrans = async (req, res) => {
     income = false;
   }
 
+  if(income===undefined){
+    throw createError(400);
+  }
+
   const transactions = await Transaction.aggregate([
     {
       $match: {
         owner: owner,
-        "date.month": month,
-        "date.year": year,
+        month: month,
+        year: year,
         income: income,
       },
     },
@@ -27,7 +35,6 @@ const getReportTrans = async (req, res) => {
     {
       $group: {
         _id: {
-          // income: "$income",
           categories: "$categories",
           description:  "$description" ,
         },
@@ -55,7 +62,9 @@ const getReportTrans = async (req, res) => {
     },
   ]);
 
-  
+  if(transactions.length===0){
+    throw createError(404, "Нет транзакций за такой период");
+  }
 
   // const transactions = await Transaction.aggregate([
   //   {
@@ -109,7 +118,7 @@ const getReportTrans = async (req, res) => {
   //     },
   //   },
   // ]);
-  console.log(transactions);
+  
 
   if (!transactions) {
     throw createError(404);
