@@ -47,13 +47,13 @@ const getTransByMonth = async (req, res) => {
             }
         }
     ]);
+    
+    console.log(transactions);
    
-    if (!transactions) {
+       if (!transactions) {
         throw createError(404);
     }
     
-    console.log(transactions);
-
     res.json({
         status: 'success',
         code: 200,
