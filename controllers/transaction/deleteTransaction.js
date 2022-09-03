@@ -14,9 +14,9 @@ const deleteTransaction = async (req, res) => {
 
   if (income) {
     newBalance = balance - value;
-    // if (newBalance < 0) {
-    //     throw createError(400, "Недостаточно средств на балансе, что записать эту транзакцию");
-    // }
+    if (newBalance < 0) {
+        throw createError(400, "Balance cannot be less than 0.00");
+    }
   } else {
     newBalance = balance + value;
   }

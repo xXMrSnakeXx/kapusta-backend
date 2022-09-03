@@ -63,67 +63,12 @@ const getReportTrans = async (req, res) => {
   ]);
 
   if(transactions.length===0){
-    throw createError(404, "Нет транзакций за такой период");
+    throw createError(404, "No transactions for this period");
   }
-
-  // const transactions = await Transaction.aggregate([
-  //   {
-  //     $match: {
-  //       owner: owner,
-  //       "date.month": month,
-  //       // 'date.year': year
-  //     },
-  //   },
-  //   {
-  //     $group: {
-  //       _id: {
-  //         income: "$income",
-  //         categories: "$categories",
-  //         description: "$description",
-  //         value: "$value",
-  //       },
-  //     },
-  //   },
-    
-  //   {
-  //     $group: {
-  //       _id: "$_id.categories",
-  //       data: {
-  //         $push: {
-  //           type: "$_id.income",
-  //           description: "$_id.description",
-  //           value: "$_id.value",
-  //         },
-  //       },
-  //       summary: { $sum: "$_id.value" },
-  //     },
-  //   },
-    
-  //   {
-  //     $group: {
-  //       _id: { $first: "$data.type" },
-  //       reports: {
-  //         $push: "$$ROOT",
-  //       },
-  //       total: { $sum: "$summary" },
-  //     },
-  //   },
-  //   {
-  //     $project: {
-  //       _id: {
-  //         income: "$_id",
-  //       },
-  //       reports: 1,
-  //       total: 1,
-  //     },
-  //   },
-  // ]);
-  
 
   if (!transactions) {
     throw createError(404);
   }
-
   
   res.json({
     status: "success",

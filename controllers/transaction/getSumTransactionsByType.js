@@ -42,7 +42,7 @@ const getSumTransactionsByType = async (req, res) => {
 
   
   if (transactionsByType.length === 0) {
-    throw createError(404, "Нет транзакций за такой период");
+    throw createError(404, "No transactions for this period");
   }
   if (!transactionsByType) {
     throw createError(404);
