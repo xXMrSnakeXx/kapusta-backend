@@ -9,6 +9,10 @@ const getTransactionListByType = async (req, res) => {
   if(!month&&!year){
     throw createError(400);
   }
+
+  if(month.length!==2||year.length!==4){
+    throw createError(400, "Format must be: `month=02&year=2022`");
+  }
    
   let income;
 
@@ -24,7 +28,7 @@ const getTransactionListByType = async (req, res) => {
   const result = await Transaction.find({ owner,  income, month, year }, "-createdAt -updatedAt");
 
   if(result.length===0){
-    throw createError(404, "Нет транзакций за такой период");
+    throw createError(404, "No transactions for this period");
   }
 
   if(!result){
@@ -36,13 +40,3 @@ const getTransactionListByType = async (req, res) => {
 };
 module.exports = getTransactionListByType;
 
-// const getTransaction = async (req, res) => {
-//   const { id: owner } = req.user;
-//   const { page = 1, limit = 20 } = req.query;
-//   const skip = (page - 1) * limit;
-//   const result = await Transaction.find({ owner }, "", {
-//     skip,
-//     limit: Number(limit),
-//   }).populate("owner", "email ");
-//   res.json(result);
-// };
