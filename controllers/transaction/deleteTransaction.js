@@ -5,9 +5,7 @@ const { createError } = require("../../helpers");
 const deleteTransaction = async (req, res) => {
   const { transactionId } = req.params;
   const result = await Transaction.findByIdAndRemove(transactionId);
-  console.log(result);
   const { income, value } = result;
-  console.log(income);
   const { balance, _id } = req.user;
 
   let newBalance;
@@ -26,7 +24,7 @@ const deleteTransaction = async (req, res) => {
     { balance: newBalance },
     { new: true }
   );
-//   console.log(user);
+
   if (!result) {
     throw createError(404);
   }
