@@ -318,10 +318,261 @@
             "content": {}
           }
         }
+      },
+      "get": {
+        "tags": [
+          "Transactions"
+        ],
+        "summary": "Get transaction's list",
+        "parameters": [
+          {
+            "name": "type",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Type of transaction"
+          },
+          {
+            "name": "mounth",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Mounth"
+          },
+          {
+            "name": "year",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Year"
+          }
+        ],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/getTransactionListByTypeResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {}
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Not found or No transactions for this period",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/transasctions/summary/{type}": {
+      "get": {
+        "tags": [
+          "Transactions"
+        ],
+        "summary": "Get transaction's list by mounth",
+        "parameters": [
+          {
+            "name": "type",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Type of transaction"
+          }
+        ],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/getTransByMonthResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {}
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Not found or No transactions for this period",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/transasctions/report/{type}": {
+      "get": {
+        "tags": [
+          "Transactions"
+        ],
+        "summary": "Get transaction report by type of category",
+        "parameters": [
+          {
+            "name": "type",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Type of transaction"
+          },
+          {
+            "name": "mounth",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Title of mounth"
+          },
+          {
+            "name": "year",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Title of year"
+          }
+        ],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/getReportTransResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {}
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Not found or No transactions for this period",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/transactions/": {
+      "get": {
+        "tags": [
+          "Transactions"
+        ],
+        "summary": "Get sum transactions by type of category",
+        "parameters": [
+          {
+            "name": "mounth",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Mounth"
+          },
+          {
+            "name": "year",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Year"
+          }
+        ],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/getSumTransactionsByTypeResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {}
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Not found or No transactions for this period",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
+            "content": {}
+          }
+        }
       }
     },
     "/api/transactions/{transactionId}": {
-      "get": {
+      "delete": {
         "tags": [
           "Transactions"
         ],
@@ -454,18 +705,18 @@
               "properties": {
                 "id": {
                   "type": "number",
-                  "description": "Categorie's id",
+                  "description": "Category ID",
                   "example": 1
                 },
                 "title": {
                   "type": "string",
-                  "description": "Categorie's name",
+                  "description": "Kind of category",
                   "example": "Products"
                 },
                 "type": {
                   "type": "string",
-                  "description": "Categorie's type",
-                  "example": "expenses"
+                  "description": "Type of transaction",
+                  "example": "expense"
                 }
               }
             }
@@ -497,18 +748,18 @@
               "properties": {
                 "id": {
                   "type": "number",
-                  "description": "Categorie's id",
+                  "description": "Category ID",
                   "example": 1
                 },
                 "title": {
                   "type": "string",
-                  "description": "Categorie's name",
+                  "description": "Kind of category",
                   "example": "Products"
                 },
                 "type": {
                   "type": "string",
-                  "description": "Categorie's type",
-                  "example": "expenses"
+                  "description": "Type of transaction",
+                  "example": "expense"
                 }
               }
             }
@@ -546,112 +797,284 @@
       "addTransactionRequest": {
         "type": "object",
         "required": [
-          "data",
+          "day",
+          "mounth",
+          "year",
           "description",
           "categories",
           "value"
         ],
         "properties": {
-          "data": {
-            "type": "object",
-            "required": [
-              "day",
-              "mounth",
-              "year"
-            ],
-            "properties": {
-              "day": {
-                "type": "string",
-                "description": "Day",
-                "example": "20"
-              },
-              "mounth": {
-                "type": "string",
-                "description": "Mounth",
-                "example": "September"
-              },
-              "year": {
-                "type": "string",
-                "description": "Year",
-                "example": "2022"
-              }
-            }
+          "day": {
+            "type": "string",
+            "description": "Day",
+            "example": "04"
+          },
+          "mounth": {
+            "type": "string",
+            "description": "Mounth",
+            "example": "09"
+          },
+          "year": {
+            "type": "string",
+            "description": "Year",
+            "example": "2022"
           },
           "description": {
             "type": "string",
-            "description": "Title of product or other",
-            "example": "Coffee"
+            "description": "Kind of product or other",
+            "example": "My salary"
           },
           "categories": {
             "type": "string",
-            "description": "Title of categorie",
-            "example": "Products"
+            "description": "Kind of category",
+            "example": "Salary"
           },
           "value": {
             "type": "number",
             "description": "Amount of money",
-            "example": 1000
+            "example": 70000
           }
         }
       },
       "addTransactionResponse": {
         "type": "object",
-        "required": [
-          "data",
-          "description",
-          "categories",
-          "value",
-          "income"
-        ],
         "properties": {
-          "data": {
-            "type": "object",
-            "required": [
-              "day",
-              "mounth",
-              "year"
-            ],
-            "properties": {
-              "day": {
-                "type": "string",
-                "description": "Day",
-                "example": "20"
-              },
-              "mounth": {
-                "type": "string",
-                "description": "Mounth",
-                "example": "September"
-              },
-              "year": {
-                "type": "string",
-                "description": "Year",
-                "example": "2022"
-              }
-            }
+          "day": {
+            "type": "string",
+            "description": "Day",
+            "example": "04"
+          },
+          "mounth": {
+            "type": "string",
+            "description": "Mounth",
+            "example": "09"
+          },
+          "year": {
+            "type": "string",
+            "description": "Year",
+            "example": "2022"
           },
           "description": {
             "type": "string",
-            "description": "Title of product or other",
-            "example": "Coffee"
+            "description": "Kind of product or other",
+            "example": "My salary"
           },
           "categories": {
             "type": "string",
-            "description": "Title of categorie",
-            "example": "Products"
+            "description": "Kind of category",
+            "example": "Salary"
           },
           "value": {
             "type": "number",
             "description": "Amount of money",
-            "example": 1000
+            "example": 70000
           },
           "income": {
             "type": "boolean",
-            "example": false
+            "example": true
           },
           "owner": {
             "type": "string",
             "description": "Owner's ID",
             "example": "631090d2f175d13e2d133dca"
+          },
+          "_id": {
+            "type": "string",
+            "description": "Transaction's ID",
+            "example": "63133b62b0647a8edfef62d9"
+          }
+        }
+      },
+      "getTransactionListByTypeResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string",
+              "description": "Transaction's ID",
+              "example": "6313388ab072555276a5fb9c"
+            },
+            "day": {
+              "type": "string",
+              "description": "Day",
+              "example": "29"
+            },
+            "mounth": {
+              "type": "string",
+              "description": "Mounth",
+              "example": "08"
+            },
+            "year": {
+              "type": "string",
+              "description": "Year",
+              "example": "2022"
+            },
+            "description": {
+              "type": "string",
+              "description": "Kind of product or other",
+              "example": "Meat"
+            },
+            "categories": {
+              "type": "string",
+              "description": "Kind of category",
+              "example": "Product"
+            },
+            "value": {
+              "type": "number",
+              "description": "Amount of money",
+              "example": 400
+            },
+            "income": {
+              "type": "boolean",
+              "example": false
+            },
+            "owner": {
+              "type": "string",
+              "description": "Owner's ID",
+              "example": "631090d2f175d13e2d133dca"
+            }
+          }
+        }
+      },
+      "getTransByMonthResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "status",
+            "example": "success"
+          },
+          "code": {
+            "type": "number",
+            "description": "Code",
+            "example": 200
+          },
+          "transactions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "object",
+                  "properties": {
+                    "mounth": {
+                      "type": "string",
+                      "description": "Mounth",
+                      "example": "08"
+                    },
+                    "year": {
+                      "type": "string",
+                      "description": "Year",
+                      "example": "2022"
+                    },
+                    "income": {
+                      "type": "boolean",
+                      "example": true
+                    }
+                  }
+                },
+                "total": {
+                  "type": "number",
+                  "description": "Amount of money",
+                  "example": 70000
+                }
+              }
+            }
+          }
+        }
+      },
+      "getReportTransResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "status",
+            "example": "success"
+          },
+          "code": {
+            "type": "number",
+            "description": "Code",
+            "example": 200
+          },
+          "transactions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "description": "Kind of category",
+                  "example": "Product"
+                },
+                "report": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "_id": {
+                        "type": "object",
+                        "properties": {
+                          "categories": {
+                            "type": "string",
+                            "description": "Kind of category",
+                            "example": "Product"
+                          },
+                          "description": {
+                            "type": "string",
+                            "description": "Element of category",
+                            "example": "Meat"
+                          }
+                        }
+                      },
+                      "totalDescriptionSum": {
+                        "type": "number",
+                        "description": "Amount of money",
+                        "example": 1500
+                      }
+                    }
+                  }
+                },
+                "totalCategoriesSum": {
+                  "type": "number",
+                  "description": "Amount of money",
+                  "example": 1500
+                }
+              }
+            }
+          }
+        }
+      },
+      "getSumTransactionsByTypeResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "status",
+            "example": "success"
+          },
+          "code": {
+            "type": "number",
+            "description": "Code",
+            "example": 200
+          },
+          "transactionsByType": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "totalSum": {
+                  "type": "number",
+                  "description": "Amount of money",
+                  "example": 252501
+                }
+              }
+            }
           }
         }
       },
