@@ -2,7 +2,7 @@ const { Schema, model } = require("mongoose");
 const Joi = require("joi");
 const categories = require("../db_categories/categories.json");
 
-const emailRegexp = /^\w+([.-]?\w+)*(\w{1,2})@\w+([.]?\w+)*(\.\w{2,3})+$/;
+const emailRegexp = /^\w+([.-]?\w+)*([.-_]?\w{1,2})@\w+([.]?\w+)*(\.\w{2,3})+$/;
 
 const userSchema = Schema(
   {
