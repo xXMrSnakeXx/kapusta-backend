@@ -264,10 +264,14 @@
             "name": "type",
             "in": "path",
             "required": true,
+            "description": "Type of transaction",
             "schema": {
-              "type": "string"
-            },
-            "description": "Type of transaction"
+              "type": "string",
+              "enum": [
+                true,
+                false
+              ]
+            }
           }
         ],
         "security": [
@@ -329,28 +333,37 @@
             "name": "type",
             "in": "path",
             "required": true,
+            "description": "Type of transaction",
             "schema": {
-              "type": "string"
-            },
-            "description": "Type of transaction"
+              "type": "boolean",
+              "enum": [
+                true,
+                false
+              ]
+            }
           },
           {
             "name": "mounth",
             "in": "query",
             "required": true,
+            "description": "Mounth",
             "schema": {
-              "type": "string"
-            },
-            "description": "Mounth"
+              "type": "string",
+              "enum": [
+                "01",
+                "...",
+                "12"
+              ]
+            }
           },
           {
             "name": "year",
             "in": "query",
             "required": true,
+            "description": "Year",
             "schema": {
               "type": "string"
-            },
-            "description": "Year"
+            }
           }
         ],
         "security": [
@@ -399,10 +412,14 @@
             "name": "type",
             "in": "path",
             "required": true,
+            "description": "Type of transaction",
             "schema": {
-              "type": "string"
-            },
-            "description": "Type of transaction"
+              "type": "boolean",
+              "enum": [
+                true,
+                false
+              ]
+            }
           }
         ],
         "security": [
@@ -451,28 +468,37 @@
             "name": "type",
             "in": "path",
             "required": true,
+            "description": "Type of transaction",
             "schema": {
-              "type": "string"
-            },
-            "description": "Type of transaction"
+              "type": "boolean",
+              "enum": [
+                true,
+                false
+              ]
+            }
           },
           {
             "name": "mounth",
             "in": "query",
             "required": true,
+            "description": "Mounth",
             "schema": {
-              "type": "string"
-            },
-            "description": "Title of mounth"
+              "type": "string",
+              "enum": [
+                "01",
+                "...",
+                "12"
+              ]
+            }
           },
           {
             "name": "year",
             "in": "query",
             "required": true,
+            "description": "Year",
             "schema": {
               "type": "string"
-            },
-            "description": "Title of year"
+            }
           }
         ],
         "security": [
@@ -515,25 +541,30 @@
         "tags": [
           "Transactions"
         ],
-        "summary": "Get sum transactions by type of category",
+        "summary": "Get all transactions report",
         "parameters": [
           {
             "name": "mounth",
             "in": "query",
             "required": true,
+            "description": "Mounth",
             "schema": {
-              "type": "string"
-            },
-            "description": "Mounth"
+              "type": "string",
+              "enum": [
+                "01",
+                "...",
+                "12"
+              ]
+            }
           },
           {
             "name": "year",
             "in": "query",
             "required": true,
+            "description": "Year",
             "schema": {
               "type": "string"
-            },
-            "description": "Year"
+            }
           }
         ],
         "security": [
@@ -547,7 +578,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/getSumTransactionsByTypeResponse"
+                  "$ref": "#/components/schemas/getAllTransactionsResponse"
                 }
               }
             }
@@ -582,10 +613,10 @@
             "name": "transactionId",
             "in": "path",
             "required": true,
+            "description": "Id of transaction",
             "schema": {
               "type": "string"
-            },
-            "description": "Id of transaction"
+            }
           }
         ],
         "security": [
@@ -1046,7 +1077,7 @@
           }
         }
       },
-      "getSumTransactionsByTypeResponse": {
+      "getAllTransactionsResponse": {
         "type": "object",
         "properties": {
           "status": {
@@ -1066,12 +1097,64 @@
               "properties": {
                 "_id": {
                   "type": "boolean",
-                  "example": true
+                  "example": false
                 },
                 "totalSum": {
                   "type": "number",
                   "description": "Amount of money",
-                  "example": 252501
+                  "example": 12500
+                }
+              }
+            }
+          },
+          "allTransactions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "description": "Transaction's ID",
+                  "example": "6313388ab072555276a5fb9c"
+                },
+                "day": {
+                  "type": "string",
+                  "description": "Day",
+                  "example": "29"
+                },
+                "mounth": {
+                  "type": "string",
+                  "description": "Mounth",
+                  "example": "08"
+                },
+                "year": {
+                  "type": "string",
+                  "description": "Year",
+                  "example": "2022"
+                },
+                "description": {
+                  "type": "string",
+                  "description": "Kind of product or other",
+                  "example": "Meat"
+                },
+                "categories": {
+                  "type": "string",
+                  "description": "Kind of category",
+                  "example": "Product"
+                },
+                "value": {
+                  "type": "number",
+                  "description": "Amount of money",
+                  "example": 1500
+                },
+                "income": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "owner": {
+                  "type": "string",
+                  "description": "Owner's ID",
+                  "example": "631090d2f175d13e2d133dca"
                 }
               }
             }
