@@ -1,7 +1,7 @@
 const { User, schemas } = require(`../../models/user`);
 const { createError } = require(`../../helpers`);
 const updateBalance = async (req, res) => {
-  console.log("ура");
+  
   const { error } = schemas.updateBalanceSchema.validate(req.body);
   if (error) {
     throw createError(400, error.message);
