@@ -29,12 +29,17 @@ const addTransaction = async (req, res) => {
     default:
       return;
   }
-  
+
   if (newBalance < 0) {
     throw createError(400, "Balance cannot be less than 0.00");
   }
 
-  await User.findByIdAndUpdate(_id, { balance: newBalance }, { new: true });
+  const user = await User.findByIdAndUpdate(
+    _id,
+    { balance: newBalance },
+    { new: true }
+  );
+  const currentBalance = user.balance;
   const transaction = await Transaction.create({
     ...req.body,
     categories,
@@ -52,7 +57,7 @@ const addTransaction = async (req, res) => {
     );
   }
 
-  res.status(201).json(transaction);
+  res.status(201).json({ transaction, currentBalance });
 };
 
 module.exports = addTransaction;

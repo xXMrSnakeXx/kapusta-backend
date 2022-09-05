@@ -1,4 +1,4 @@
-const express = require('express');
+const express = require("express");
 
 const ctrl = require(`../../controllers/auth`);
 
@@ -14,22 +14,16 @@ router.get("/google", ctrlWrapper(ctrl.googleAuth));
 router.get("/google-redirect", ctrlWrapper(ctrl.googleRedirect));
 
 // sign up
-router.post('/register', ctrlWrapper(ctrl.register));
-
-// verification of email
-// router.get('/verify/:verificationToken', auth, ctrlWrapper(ctrl.verifyEmail));
-
-// resend verification of email
-// router.post('/verify', auth, ctrlWrapper(ctrl.resendVerifyEmail));
+router.post("/register", ctrlWrapper(ctrl.register));
 
 // sign in
-router.post('/login', ctrlWrapper(ctrl.login));
+router.post("/login", ctrlWrapper(ctrl.login));
 
 // current
-router.get('/current', auth, ctrlWrapper(ctrl.getCurrent));
+router.get("/current", auth, ctrlWrapper(ctrl.getCurrent));
 
 // log out
-router.get('/logout', auth, ctrlWrapper(ctrl.logout));
+router.get("/logout", auth, ctrlWrapper(ctrl.logout));
 
 // update balance
 router.patch("/balance", auth, ctrlWrapper(ctrl.updateBalance));
