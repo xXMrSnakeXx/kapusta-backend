@@ -13,17 +13,13 @@ const deleteTransaction = async (req, res) => {
   if (income) {
     newBalance = balance - value;
     if (newBalance < 0) {
-        throw createError(400, "Balance cannot be less than 0.00");
+      throw createError(400, "Balance cannot be less than 0.00");
     }
   } else {
     newBalance = balance + value;
   }
 
-  await User.findByIdAndUpdate(
-    _id,
-    { balance: newBalance },
-    { new: true }
-  );
+  await User.findByIdAndUpdate(_id, { balance: newBalance }, { new: true });
 
   if (!result) {
     throw createError(404);

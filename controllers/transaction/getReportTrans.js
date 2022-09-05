@@ -5,12 +5,12 @@ const getReportTrans = async (req, res) => {
   const { _id: owner } = req.user;
   const { type } = req.params;
   const { month, year } = req.query;
-  
-  if(!month&&!year){
+
+  if (!month && !year) {
     throw createError(400);
   }
-  
-  if(month.length!==2||year.length!==4){
+
+  if (month.length !== 2 || year.length !== 4) {
     throw createError(400, "Format must be: `month=02&year=2022`");
   }
 
@@ -22,7 +22,7 @@ const getReportTrans = async (req, res) => {
     income = false;
   }
 
-  if(income===undefined){
+  if (income === undefined) {
     throw createError(400);
   }
 
@@ -40,10 +40,9 @@ const getReportTrans = async (req, res) => {
       $group: {
         _id: {
           categories: "$categories",
-          description:  "$description" ,
+          description: "$description",
         },
         totalDescriptionSum: { $sum: "$value" },
-
       },
     },
     {
@@ -61,19 +60,19 @@ const getReportTrans = async (req, res) => {
         _id: 1,
         report: 1,
         total: 1,
-        totalCategoriesSum:1,
+        totalCategoriesSum: 1,
       },
     },
   ]);
 
-  if(transactions.length===0){
+  if (transactions.length === 0) {
     throw createError(404, "No transactions for this period");
   }
 
   if (!transactions) {
     throw createError(404);
   }
-  
+
   res.json({
     status: "success",
     code: 200,
