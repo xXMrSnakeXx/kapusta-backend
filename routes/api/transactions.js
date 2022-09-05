@@ -16,7 +16,7 @@ router.get("/:type", auth, ctrlWrapper(ctrl.getTransactionListByType));
 
 router.get("/summary/:type", auth, ctrlWrapper(ctrl.getTransByMonth));
 
-router.get("/", auth, ctrlWrapper(ctrl.getSumTransactionsByType));
+router.get("/", auth, ctrlWrapper(ctrl.getAllTransactions));
 
 router.get("/report/:type", auth, ctrlWrapper(ctrl.getReportTrans));
 
