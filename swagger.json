@@ -346,7 +346,7 @@
             "name": "mounth",
             "in": "query",
             "required": true,
-            "description": "Mounth",
+            "description": "Month",
             "schema": {
               "type": "string",
               "enum": [
@@ -481,7 +481,7 @@
             "name": "mounth",
             "in": "query",
             "required": true,
-            "description": "Mounth",
+            "description": "Month",
             "schema": {
               "type": "string",
               "enum": [
@@ -547,7 +547,7 @@
             "name": "mounth",
             "in": "query",
             "required": true,
-            "description": "Mounth",
+            "description": "Month",
             "schema": {
               "type": "string",
               "enum": [
@@ -843,7 +843,7 @@
           },
           "mounth": {
             "type": "string",
-            "description": "Mounth",
+            "description": "Month",
             "example": "09"
           },
           "year": {
@@ -878,7 +878,7 @@
           },
           "mounth": {
             "type": "string",
-            "description": "Mounth",
+            "description": "Month",
             "example": "09"
           },
           "year": {
@@ -934,7 +934,7 @@
             },
             "mounth": {
               "type": "string",
-              "description": "Mounth",
+              "description": "Month",
               "example": "08"
             },
             "year": {
@@ -992,7 +992,7 @@
                   "properties": {
                     "mounth": {
                       "type": "string",
-                      "description": "Mounth",
+                      "description": "Month",
                       "example": "08"
                     },
                     "year": {
@@ -1124,7 +1124,7 @@
                 },
                 "mounth": {
                   "type": "string",
-                  "description": "Mounth",
+                  "description": "Month",
                   "example": "08"
                 },
                 "year": {
