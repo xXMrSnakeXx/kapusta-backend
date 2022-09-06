@@ -19,15 +19,20 @@ const deleteTransaction = async (req, res) => {
     newBalance = balance + value;
   }
 
-  await User.findByIdAndUpdate(_id, { balance: newBalance }, { new: true });
+  const user = await User.findByIdAndUpdate(
+    _id,
+    { balance: newBalance },
+    { new: true }
+  );
+  const currentBalance = user.balance;
 
   if (!result) {
     throw createError(404);
   }
 
   res.json({
-    balance: newBalance,
     message: "transaction deleted",
+    currentBalance,
   });
 };
 
