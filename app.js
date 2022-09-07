@@ -23,10 +23,6 @@ app.use(express.static("public"));
 
 app.use("/api/auth", authRouter);
 app.use("/api/transactions", transactionsRouter);
-
-// type in the browser 'http://localhost:3000/api-docs'
-// or 'https://finance-wallet.herokuapp.com/api-docs'
-// to go to swagger
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use((req, res) => {
