@@ -3,16 +3,16 @@ const { createError } = require("../../helpers");
 
 const getTransactionListByType = async (req, res) => {
   const { id: owner } = req.user;
-  const { month, year } = req.query;
+  const { day, month, year } = req.query;
   const { type } = req.params;
 
-  if (!month && !year) {
-    throw createError(400);
-  }
+  // if (!day&&!month && !year) {
+  //   throw createError(400);
+  // }
 
-  if (month.length !== 2 || year.length !== 4) {
-    throw createError(400, "Format must be: `month=02&year=2022`");
-  }
+  // if (day.length!==2||month.length !== 2 || year.length !== 4) {
+  //   throw createError(400, "Format must be: `day=22&month=02&year=2022`");
+  // }
 
   let income;
 
@@ -26,7 +26,7 @@ const getTransactionListByType = async (req, res) => {
     throw createError(400);
   }
   const result = await Transaction.find(
-    { owner, income, month, year },
+    { owner, income, day, month, year },
     "-createdAt -updatedAt"
   );
 

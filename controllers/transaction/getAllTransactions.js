@@ -3,7 +3,7 @@ const { Transaction } = require("../../models/transactions");
 
 const getAllTransactions = async (req, res) => {
   const { _id: owner } = req.user;
-  const { month, year } = req.query;
+  const { day, month, year } = req.query;
 
   if (!month && !year) {
     throw createError(400);
@@ -51,7 +51,7 @@ const getAllTransactions = async (req, res) => {
     throw createError(404);
   }
   const allTransactions = await Transaction.find(
-    { owner, month, year },
+    { owner, day, month, year },
     "-createdAt -updatedAt"
   );
   if (allTransactions.length === 0) {
