@@ -266,10 +266,10 @@
             "required": true,
             "description": "Type of transaction",
             "schema": {
-              "type": "boolean",
+              "type": "string",
               "enum": [
-                true,
-                false
+                "income",
+                "expense"
               ]
             }
           }
@@ -335,15 +335,57 @@
             "required": true,
             "description": "Type of transaction",
             "schema": {
-              "type": "boolean",
+              "type": "string",
               "enum": [
-                true,
-                false
+                "income",
+                "expense"
               ]
             }
           },
           {
-            "name": "mounth",
+            "name": "day",
+            "in": "query",
+            "required": true,
+            "description": "Day",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "01",
+                "02",
+                "03",
+                "04",
+                "05",
+                "06",
+                "07",
+                "08",
+                "09",
+                "10",
+                "11",
+                "12",
+                "13",
+                "14",
+                "15",
+                "16",
+                "17",
+                "18",
+                "19",
+                "20",
+                "21",
+                "22",
+                "23",
+                "24",
+                "25",
+                "26",
+                "27",
+                "28",
+                "29",
+                "30",
+                "31"
+              ]
+            }
+          },
+          {
+            "name": "month",
             "in": "query",
             "required": true,
             "description": "Month",
@@ -370,6 +412,7 @@
             "in": "query",
             "required": true,
             "description": "Year",
+            "example": "2022",
             "schema": {
               "type": "string"
             }
@@ -410,7 +453,7 @@
         }
       }
     },
-    "/api/transasctions/summary/{type}": {
+    "/api/transactions/summary/{type}": {
       "get": {
         "tags": [
           "Transactions"
@@ -423,10 +466,10 @@
             "required": true,
             "description": "Type of transaction",
             "schema": {
-              "type": "boolean",
+              "type": "string",
               "enum": [
-                true,
-                false
+                "income",
+                "expense"
               ]
             }
           }
@@ -466,7 +509,7 @@
         }
       }
     },
-    "/api/transasctions/report/{type}": {
+    "/api/transactions/report/{type}": {
       "get": {
         "tags": [
           "Transactions"
@@ -479,15 +522,15 @@
             "required": true,
             "description": "Type of transaction",
             "schema": {
-              "type": "boolean",
+              "type": "string",
               "enum": [
-                true,
-                false
+                "income",
+                "expense"
               ]
             }
           },
           {
-            "name": "mounth",
+            "name": "month",
             "in": "query",
             "required": true,
             "description": "Month",
@@ -514,7 +557,7 @@
             "in": "query",
             "required": true,
             "description": "Year",
-            "example": 2022,
+            "example": "2022",
             "schema": {
               "type": "string"
             }
@@ -605,13 +648,26 @@
             }
           },
           {
-            "name": "mounth",
+            "name": "month",
             "in": "query",
             "required": true,
             "description": "Month",
             "schema": {
               "type": "string",
-              "example": "01"
+              "enum": [
+                "01",
+                "02",
+                "03",
+                "04",
+                "05",
+                "06",
+                "07",
+                "08",
+                "09",
+                "10",
+                "11",
+                "12"
+              ]
             }
           },
           {
@@ -619,9 +675,9 @@
             "in": "query",
             "required": true,
             "description": "Year",
+            "example": "2022",
             "schema": {
-              "type": "string",
-              "example": 2022
+              "type": "string"
             }
           }
         ],
@@ -914,7 +970,7 @@
         "type": "object",
         "required": [
           "day",
-          "mounth",
+          "month",
           "year",
           "description",
           "categories",
@@ -926,7 +982,7 @@
             "description": "Day",
             "example": "04"
           },
-          "mounth": {
+          "month": {
             "type": "string",
             "description": "Month",
             "example": "09"
@@ -964,7 +1020,7 @@
                 "description": "Day",
                 "example": "04"
               },
-              "mounth": {
+              "month": {
                 "type": "string",
                 "description": "Month",
                 "example": "09"
@@ -1028,7 +1084,7 @@
               "description": "Day",
               "example": "29"
             },
-            "mounth": {
+            "month": {
               "type": "string",
               "description": "Month",
               "example": "08"
@@ -1086,7 +1142,7 @@
                 "_id": {
                   "type": "object",
                   "properties": {
-                    "mounth": {
+                    "month": {
                       "type": "string",
                       "description": "Month",
                       "example": "08"
@@ -1218,7 +1274,7 @@
                   "description": "Day",
                   "example": "29"
                 },
-                "mounth": {
+                "month": {
                   "type": "string",
                   "description": "Month",
                   "example": "08"
