@@ -458,7 +458,7 @@
         "tags": [
           "Transactions"
         ],
-        "summary": "Get transaction's list by mounth",
+        "summary": "Get transaction's list by month",
         "parameters": [
           {
             "name": "type",
