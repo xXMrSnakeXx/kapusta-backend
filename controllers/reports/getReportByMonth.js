@@ -1,7 +1,7 @@
 const { createError } = require("../../helpers");
 const { Transaction } = require("../../models/transactions");
 
-const getTransByMonth = async (req, res) => {
+const getReportByMonth = async (req, res) => {
   const { _id: owner } = req.user;
 
   const { type } = req.params;
@@ -18,7 +18,7 @@ const getTransByMonth = async (req, res) => {
     throw createError(400);
   }
 
-  const transactions = await Transaction.aggregate([
+  const reportByMonth = await Transaction.aggregate([
     {
       $match: {
         owner: owner,
@@ -42,22 +42,11 @@ const getTransByMonth = async (req, res) => {
         total: 1,
       },
     },
-    {
-      $sort: {
-        month: 1,
-      },
-    },
   ]);
 
-  if (!transactions) {
-    throw createError(404);
-  }
-
   res.json({
-    status: "success",
-    code: 200,
-    transactions,
+    reportByMonth,
   });
 };
 
-module.exports = getTransByMonth;
+module.exports = getReportByMonth;

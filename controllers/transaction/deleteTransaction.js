@@ -3,10 +3,11 @@ const { User } = require("../../models/user");
 const { createError } = require("../../helpers");
 
 const deleteTransaction = async (req, res) => {
+  const { balance, _id } = req.user;
   const { transactionId } = req.params;
+
   const result = await Transaction.findByIdAndRemove(transactionId);
   const { income, value } = result;
-  const { balance, _id } = req.user;
 
   let newBalance;
 

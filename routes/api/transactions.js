@@ -8,16 +8,12 @@ const { auth } = require(`../../middlewares`);
 
 const router = express.Router();
 
+router.get("/", auth, ctrlWrapper(ctrl.getAllTransactions));
+
 router.post("/:type", auth, ctrlWrapper(ctrl.addTransaction));
 
 router.delete("/:transactionId", auth, ctrlWrapper(ctrl.deleteTransaction));
 
-router.get("/:type", auth, ctrlWrapper(ctrl.getTransactionListByType));
-
-router.get("/summary/:type", auth, ctrlWrapper(ctrl.getTransByMonth));
-
-router.get("/", auth, ctrlWrapper(ctrl.getAllTransactions));
-
-router.get("/report/:type", auth, ctrlWrapper(ctrl.getReportTrans));
+router.get("/report/:type", auth, ctrlWrapper(ctrl.getReportTransactions));
 
 module.exports = router;

@@ -1,16 +1,12 @@
 const { createError } = require("../../helpers");
 const { Transaction } = require("../../models/transactions");
 
-const getReportTrans = async (req, res) => {
+const getReportTransactions = async (req, res) => {
   const { _id: owner } = req.user;
   const { type } = req.params;
   const { month, year } = req.query;
 
-  if (!month && !year) {
-    throw createError(400);
-  }
-
-  if (month.length !== 2 || year.length !== 4) {
+  if (month?.length !== 2 || year?.length !== 4) {
     throw createError(400, "Format must be: `month=02&year=2022`");
   }
 
@@ -26,7 +22,7 @@ const getReportTrans = async (req, res) => {
     throw createError(400);
   }
 
-  const transactions = await Transaction.aggregate([
+  const reportTransactions = await Transaction.aggregate([
     {
       $match: {
         owner: owner,
@@ -65,19 +61,9 @@ const getReportTrans = async (req, res) => {
     },
   ]);
 
-  if (transactions.length === 0) {
-    throw createError(404, "No transactions for this period");
-  }
-
-  if (!transactions) {
-    throw createError(404);
-  }
-
   res.json({
-    status: "success",
-    code: 200,
-    transactions,
+    reportTransactions,
   });
 };
 
-module.exports = getReportTrans;
+module.exports = getReportTransactions;

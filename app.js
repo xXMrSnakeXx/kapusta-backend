@@ -1,8 +1,6 @@
 const express = require("express");
 const logger = require("morgan");
 const cors = require("cors");
-// const dotenv = require("dotenv")
-// dotenv.config();
 
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("./swagger.json");
@@ -11,7 +9,7 @@ const authRouter = require("./routes/api/auth");
 
 const transactionsRouter = require("./routes/api/transactions");
 
-const totalSumRouter = require("./routes/api/totalSum");
+const reportsRouter = require("./routes/api/reports");
 
 const app = express();
 
@@ -24,7 +22,7 @@ app.use(express.static("public"));
 
 app.use("/api/auth", authRouter);
 app.use("/api/transactions", transactionsRouter);
-app.use("/api/totalSum", totalSumRouter);
+app.use("/api/reports", reportsRouter);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use((req, res) => {

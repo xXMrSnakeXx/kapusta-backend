@@ -1,16 +1,14 @@
 const { createError } = require("../../helpers");
 const { Transaction } = require("../../models/transactions");
 
-const getTotalSum = async (req, res) => {
+const getReportTotalSum = async (req, res) => {
   const { _id: owner } = req.user;
   const { month, year } = req.query;
-  if (!month && !year) {
-    throw createError(400);
-  }
-  if (month.length !== 2 || year.length !== 4) {
+
+  if (month?.length !== 2 || year?.length !== 4) {
     throw createError(400, "Format must be: `month=02&year=2022`");
   }
-  const transactionsByType = await Transaction.aggregate([
+  const reportTotalSum = await Transaction.aggregate([
     {
       $match: {
         owner: owner,
@@ -42,8 +40,8 @@ const getTotalSum = async (req, res) => {
     },
   ]);
   res.json({
-    data: transactionsByType,
+    reportTotalSum,
   });
 };
 
-module.exports = getTotalSum;
+module.exports = getReportTotalSum;

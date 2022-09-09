@@ -12,7 +12,7 @@ const updateBalance = async (req, res) => {
     throw createError(400, "Balance must be greater than 0");
   }
   const result = await User.findByIdAndUpdate(_id, { balance }, { new: true });
-  res.status(200).json({ email: result.email, balance: result.balance });
+  res.json({ email: result.email, balance: result.balance });
 };
 
 module.exports = updateBalance;

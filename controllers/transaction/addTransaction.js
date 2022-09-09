@@ -14,9 +14,10 @@ const addTransaction = async (req, res) => {
 
   const { type } = req.params;
 
-  const { value, categories } = req.body;
+  const { value } = req.body;
 
   let newBalance, income;
+
   switch (type) {
     case "income":
       newBalance = balance + value;
@@ -40,9 +41,9 @@ const addTransaction = async (req, res) => {
     { new: true }
   );
   const currentBalance = user.balance;
+
   const transaction = await Transaction.create({
     ...req.body,
-    categories,
     income,
     owner: _id,
   });
