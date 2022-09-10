@@ -21,10 +21,6 @@ const userSchema = Schema(
       required: [true, "Email is required"],
       unique: true,
     },
-    token: {
-      type: String,
-      default: null,
-    },
     categories: {
       type: Array,
       default: categories,

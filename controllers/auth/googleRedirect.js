@@ -1,6 +1,7 @@
 const queryString = require("query-string");
 const axios = require("axios");
 const { User } = require(`../../models/user`);
+const { Session } = require(`../../models/session`);
 
 const jwt = require("jsonwebtoken");
 
@@ -34,25 +35,29 @@ const googleRedirect = async (req, res) => {
   if (user) {
     const { SECRET_KEY } = process.env;
     const { _id } = user;
+    const newSession = await Session.create({ uid: _id });
     const payload = {
       _id,
+      sid: newSession._id,
     };
 
     const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "12h" });
-    await User.findByIdAndUpdate(user._id, { token });
 
-    return res.redirect(`${process.env.FRONTEND_URL}/google-redirect/?token=${token}`);
+    return res.redirect(
+      `${process.env.FRONTEND_URL}/google-redirect/?token=${token}`
+    );
   }
   const newUser = await User.create({ email });
 
   const { SECRET_KEY } = process.env;
   const { _id } = newUser;
+  const newSession = await Session.create({ uid: _id });
   const payload = {
     _id,
+    sid: newSession._id,
   };
 
   const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "12h" });
-  await User.findByIdAndUpdate(_id, { token });
 
   return res.redirect(
     `${process.env.FRONTEND_URL}/google-redirect/?token=${token}`
