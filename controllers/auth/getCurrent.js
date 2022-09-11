@@ -6,5 +6,4 @@ const getCurrent = async (req, res) => {
     categories,
   });
 };
-
 module.exports = getCurrent;
